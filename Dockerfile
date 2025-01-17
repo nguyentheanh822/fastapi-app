@@ -1,14 +1,19 @@
-# Sử dụng image Python 3.9 slim làm base image
+# Sử dụng Python 3.9 slim làm base image
 FROM python:3.9-slim
 
 # Thiết lập thư mục làm việc bên trong container
 WORKDIR /app
 
-# Sao chép tất cả các file trong thư mục hiện tại vào thư mục làm việc trong container
-COPY . /app
+# Sao chép các tệp vào container
+COPY requirements.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Cài đặt các thư viện yêu cầu (FastAPI và Uvicorn)
-RUN pip install fastapi uvicorn
+# Sao chép mã nguồn ứng dụng
+COPY . .
 
-# Chạy ứng dụng FastAPI bằng Uvicorn
+# Mở cổng 8000 để truy cập ứng dụng
+EXPOSE 8000
+
+# Lệnh chạy ứng dụng
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+

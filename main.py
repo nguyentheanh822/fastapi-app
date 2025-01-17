@@ -1,17 +1,17 @@
 from fastapi import FastAPI
-import math
 
 app = FastAPI()
 
-@app.get("/get_version")
+@app.get("/version")
 def get_version():
     return {"version": "1.0.0"}
 
-@app.get("/check_prime/{number}")
+@app.get("/prime")
 def check_prime(number: int):
     if number < 2:
-        return {"prime": False}
-    for i in range(2, int(math.sqrt(number)) + 1):
+        return {"number": number, "is_prime": False}
+    for i in range(2, int(number ** 0.5) + 1):
         if number % i == 0:
-            return {"prime": False}
-    return {"prime": True}
+            return {"number": number, "is_prime": False}
+    return {"number": number, "is_prime": True}
+
